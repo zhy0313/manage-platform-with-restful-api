@@ -1,0 +1,33 @@
+body {
+    font-family: 微软雅黑细体
+}
+
+
+
+.form-search {
+    width: 50%;
+    float: right;
+    margin-bottom: 10px
+}
+
+h3 span {
+    margin-left: 25px
+}
+
+td button {
+    margin-left: 10px
+}
+
+body div div nav ul li:nth-child(8) {
+    font-size: 20px;
+    margin-left: 60px
+}
+
+body div div nav ul li:nth-child(9) {
+    font-size: 20px
+}
+
+body div div nav ul li:nth-child(9) input[type="text"] {
+    width: 60px;
+    text-align: center
+}

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manager page</title>
+    <script type="text/javascript" src='../static/jQuery/jquery-3.1.1.js'></script>
+    <script type="text/javascript" src='../static/dist/js/bootstrap.js'></script>
+    <link rel="stylesheet" type="text/css" href="../static/dist/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../static/dist/css/bootstrap-theme.css">
+    <link rel="stylesheet" type="text/css" href="../static/index.css">
+</head>
+<body>
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <h1 class="text-center">属性管理界面</h1>
+        <h3>
+            <button type="button" class="btn btn-primary" id="selectDomainButton">选择领域</button>
+            <span class="label label-success" value='person'>person</span>
+        </h3>
+        <form class="form-search">
+                <div class="input-group">
+                    <input type="text" class="form-control">
+                    <span class="input-group-btn">
+                        <input class="btn btn-primary" type="button" value="查找" onclick="search(this)">
+                    </span>
+                </div>
+        </form>
+        <table class="table table-bordered text-center">
+                <thead>
+                    <tr>
+                        <th class="text-center">
+                            编号
+                        </th>
+                        <th class="text-center">
+                            最优属性
+                        </th>
+                        <th class="text-center">
+                            操作
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+        </table>
+        <button type="button" class="btn btn-primary btn-lg" id="addAttr">添加</button>
+        <!-- 下面是页码栏 -->
+        <nav class="text-center">
+              <ul class="pagination"">
+                <li><a href="#" onclick="lastnextPage(this, -1)">&laquo;</a></li>
+                <li id='page'><a href="#">1</a></li>
+                <li id='page'><a href="#">2</a></li>
+                <li id='page'><a href="#">3</a></li>
+                <li id='page'><a href="#">4</a></li>
+                <li id='page'><a href="#">5</a></li>
+                <li><a href="#" onclick="lastnextPage(this, 1)">&raquo;</a></li>
+                <li>当前第<b>1</b>页</li>
+                <li>
+                  转到 <input type="text" name="pageInput">页
+                </li>
+              </ul>
+        </nav>
+        <!-- 下面是同义词弹出框-->
+        <div class="modal fade" id="otherAttr" tabindex="-1" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title text-center" id="myModalLabel">同义词</h4>
+              </div>
+              <div class="modal-body">
+                <table class="table table-bordered text-center">
+                    <thead>
+                        <tr>
+                            <th class="text-center">
+                                编号
+                            </th>
+                            <th class="text-center">
+                                同义词
+                            </th>
+                            <th class="text-center">
+                                操作
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <div class="input-group">
+                    <input type="text" class="form-control">
+                    <span class="input-group-btn">
+                        <input class="btn btn-primary" type="button" value="添加" id="addOtherAttrEach">
+                    </span>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <!-- <button type="button" class="btn btn-primary">保存</button> -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 弹出页面结束 -->
+
+        <!-- 确认删除弹出框 -->
+        <div class="modal fade" id="delcfmModel">
+          <div class="modal-dialog">
+            <div class="modal-content message_align">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">提示信息</h4>
+              </div>
+              <div class="modal-body">
+              </div>
+              <div class="modal-footer">
+                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                 <button type="button" class="btn btn-primary" onclick="confirmDel(this)" data-dismiss="modal">确定</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 添加最优属性弹出框 -->
+        <div class="modal fade" id="addModel">
+          <div class="modal-dialog">
+            <div class="modal-content message_align">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">添加最优属性</h4>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                    <label>最优属性</label>
+                    <input type="text" class="form-control" placeholder="输入最优属性名称">
+                </div>
+                <div class="form-group">
+                    <label>同义词</label>
+                    <input type="text" class="form-control" placeholder="多个同义词用空格分开">
+                </div>
+              </div>
+              <div class="modal-footer">
+                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                 <button type="button" class="btn btn-primary" data-dismiss="modal">保存</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 选择领域名弹出框 -->
+        <div class="modal fade" id="selectDomain">
+          <div class="modal-dialog">
+            <div class="modal-content message_align">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">选择领域</h4>
+              </div>
+              <div class="modal-body">
+                <button type="button" class="btn btn-success">人物</button>
+                <button type="button" class="btn btn-success">玩具</button>
+                <button type="button" class="btn btn-success">智能家居</button>
+              </div>
+              <div class="modal-footer">
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+    </div>
+</div>
+<script type="text/javascript" src='../static/index.js'></script>
+</body>
+</html>
