@@ -40,8 +40,6 @@ class getAttribute(Resource):
 
         # 查询同义属性
         elif args['type'] == 1:
-            print args
-            print urls['getOtherAttr'] % args
             data = requests.get(urls['getOtherAttr'] % args).json()
             data['message'] = 'success'
             return data

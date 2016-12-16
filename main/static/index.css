@@ -3,31 +3,34 @@ body {
 }
 
 
-
 .form-search {
     width: 50%;
     float: right;
-    margin-bottom: 10px
+    margin-bottom: 10px;
 }
 
 h3 span {
-    margin-left: 25px
+    margin-left: 25px;
 }
 
 td button {
-    margin-left: 10px
+    margin-left: 10px;
 }
 
 body div div nav ul li:nth-child(8) {
     font-size: 20px;
-    margin-left: 60px
+    margin-left: 60px;
 }
 
 body div div nav ul li:nth-child(9) {
-    font-size: 20px
+    font-size: 20px;
 }
 
 body div div nav ul li:nth-child(9) input[type="text"] {
     width: 60px;
-    text-align: center
+    text-align: center;
+}
+
+#loading img {
+    margin-left: 40%;
 }

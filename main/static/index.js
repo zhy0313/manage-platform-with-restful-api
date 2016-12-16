@@ -23,7 +23,6 @@ function add2otherAttr(i, result){
 
 // 增加同义词推送到服务器，由$("#addOtherAttrEach").bind('click', function()调用
 function manAdd2otherAttr(domain='person', otherAttr, fromAttr){
-    console.log(domain, otherAttr, fromAttr);
     $post_param = {'domain':domain, 'otherAttr':otherAttr, 'fromAttr':fromAttr}
     $.post("/api/addAttribute", $post_param, function(text, status){
         if (text['status'] == 1){ alert('error'+'\n'+data['reason']); return };
@@ -124,6 +123,7 @@ $("#addModel > div.modal-dialog > div > div.modal-footer > button.btn.btn-primar
     $domain = $("body > div > div > h3 > span").attr('value');
     for(var i=0;i<$otherAttrs.length;i++){
      $otherAttr = $otherAttrs[i];
+     if (!$otherAttr){continue}
      manAdd2otherAttr($domain, $otherAttr, $bestAttr);
     };
     $("body > div > div > table > tbody").children().remove();
@@ -154,12 +154,11 @@ function getBestAttr(domain='person', pn=1){
 
 
 function showLoading(){
- // $("body > div > div > table").children().remove();
- $("body > div > div > table").append('<img src="../static/box.gif">');
+ $("body > div > div > table").after('<div id="loading"><img src="../static/box.gif"></div>');
 }
 
 function hiddenLoading(){
-    $("body > div > div > table > img").remove();
+    $("#loading").remove();
 }
 
 // 添加最优属性到主页面，获取最优属性调用此函数
@@ -223,3 +222,16 @@ function lastnextPage(button, a){
     $tbody = $("body > div > div > table > tbody").children().remove();
     getBestAttr($domain, $getPage);
 }
+
+
+// 当同义属性删除完之后，点击关闭按钮会刷新主页面的最优属性表格
+$("#otherAttr > div.modal-dialog > div > div.modal-footer > button").bind('click', function(){
+    $tbody = $('#otherAttr > div.modal-dialog > div > div.modal-body > table > tbody');
+    if ($tbody.children('.info').length != 0){return};
+    $page = $("body > div > div > nav > ul > li:nth-child(8) > b").text();
+    $domain = $("body > div > div > h3 > span").attr('value');
+    $tbody = $("body > div > div > table > tbody").children().remove();
+    getBestAttr($domain, $page);
+})
+
+
