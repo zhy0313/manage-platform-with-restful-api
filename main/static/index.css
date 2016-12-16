@@ -34,3 +34,109 @@ body div div nav ul li:nth-child(9) input[type="text"] {
 #loading img {
     margin-left: 40%;
 }
+
+
+#domainLabel {
+    font-weight: normal;
+}
+
+
+#getOtherAttr {
+    background: url('../static/查看.png');
+    background-size:100% 100%;
+    width: 46px;
+    height: 30px;
+}
+
+
+#getOtherAttr:hover {
+    background: url('../static/查看点击.png');
+    background-size:100% 100%;
+    width: 46px;
+    height: 30px;
+}
+
+
+#searchB,#saveB, #addOtherAttrEach {
+    background: url('../static/查看.png');
+    background-size:100% 100%;
+    width: 54px;
+    height: 34px;
+}
+
+
+#searchB:hover,#saveB:hover, #addOtherAttrEach:hover {
+    background: url('../static/查看点击.png');
+    background-size:100% 100%;
+    width: 54px;
+    height: 34px;
+}
+
+
+#selectDomainButton {
+    background: url('../static/查看.png');
+    background-size:100% 100%;
+    width: 82px;
+    height: 34px;
+}
+
+
+#selectDomainButton:hover {
+    background: url('../static/查看点击.png');
+    background-size:100% 100%;
+    width: 82px;
+    height: 34px;
+}
+
+
+#addAttr{
+    background: url('../static/查看.png');
+    background-size:100% 100%;
+    width: 70px;
+    height: 45px;
+}
+
+
+#addAttr:hover {
+    background: url('../static/查看点击.png');
+    background-size:100% 100%;
+    width: 70px;
+    height: 45px;
+}
+
+
+#cancelB {
+    background: url('../static/关闭.png');
+    background-size:100% 100%;
+    width: 54px;
+    height: 34px;
+    color: white
+}
+
+
+#cancelB:hover {
+    background: url('../static/关闭点击.png');
+    background-size:100% 100%;
+    width: 54px;
+    height: 34px;
+}
+
+/*查找框背景图*/
+#searchInput {
+    background-image: url("../static/查找图标.png");
+    background-repeat: no-repeat;
+    background-position: 98% 50%;
+    background-size:20px 20px;
+
+}
+
+/*去除默认按钮的描边*/
+.btn {
+    border-color: white;
+    text-shadow: 0 0 0 ;
+}
+
+.btn:hover {
+    border-color: white;
+}
+

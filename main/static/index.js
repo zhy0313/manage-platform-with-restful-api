@@ -165,7 +165,7 @@ function hiddenLoading(){
 function add2bestAttr(i, bestAttr){
     $tbody = $("body > div > div > table > tbody")
     $num = i + 1
-    $tr = '<tr class="active"><td>'+$num+'</td><td>'+bestAttr+'</td><td><button type="button" class="btn btn-primary btn-sm" data-target="#otherAttr" onclick="clickOtherAttr(this)">查看</button><button type="button" class="btn btn-primary btn-sm btn-danger" onclick="delBestAttr(this)">删除</button></td></tr>'
+    $tr = '<tr class="active"><td>'+$num+'</td><td>'+bestAttr+'</td><td><button id="getOtherAttr" type="button" class="btn btn-primary btn-sm" data-target="#otherAttr" onclick="clickOtherAttr(this)">查看</button><button type="button" class="btn btn-primary btn-sm btn-danger" onclick="delBestAttr(this)">删除</button></td></tr>'
     $tbody.append($tr)
 }
 
