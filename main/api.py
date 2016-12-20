@@ -3,8 +3,12 @@
 @author: ioiogoo
 @date: 2016/12/14 14:31
 '''
-from flask_restful import Resource, reqparse
+from flask_restful import Resource, reqparse, request
 import requests
+import json
+from main.log import logger
+from flask import abort
+from functools import wraps
 
 str, unicode = unicode, str
 urls = {
@@ -14,6 +18,21 @@ urls = {
     'delOtherAttr': 'http://192.168.88.3:1024/kggraph/api/deleteSynonymAttribute?attribute=%(otherAttr)s&domain=%(domain)s',
     'delBestAttr': 'http://192.168.88.3:1024/kggraph/api/deleteFormalAttribute?attribute=%(bestAttr)s&domain=%(domain)s'
 }
+logging_format = 'ip: %(ip)s - url: %(url)s - data: %(data)s'
+
+
+def handle_error(func):
+    @wraps(func)
+    def wrapper(*args, **kw):
+        try:
+            return func(*args, **kw)
+        except Exception as e:
+            logger.error(logging_format % {'ip': request.remote_addr, 'url': request.url, 'data': e})
+            return logging_format % {'ip': request.remote_addr, 'url': request.url, 'data': 'server error'}, 500
+    return wrapper
+
+
+
 
 class getAttribute(Resource):
     '''查找属性'''
@@ -27,6 +46,7 @@ class getAttribute(Resource):
         self.getAttributeParse.add_argument('pn', type=int, required=False, location='args')
         self.getAttributeParse.add_argument('rn', type=int, required=False, location='args', default=5)
 
+    @handle_error
     def get(self):
         args = self.getAttributeParse.parse_args()
         # 查询最优属性
@@ -36,12 +56,14 @@ class getAttribute(Resource):
             offset = (pn - 1) * rn
             data = requests.get(urls['getBestAttr'] % {'domain': args['domain'], 'count': rn, 'offset': offset}).json()
             data['message'] = 'success'
+            logger.info(logging_format % {'ip': request.remote_addr, 'url': request.url, 'data': json.dumps(data)})
             return data
 
         # 查询同义属性
         elif args['type'] == 1:
             data = requests.get(urls['getOtherAttr'] % args).json()
             data['message'] = 'success'
+            logger.info(logging_format % {'ip': request.remote_addr, 'url': request.url, 'data': json.dumps(data)})
             return data
 
 
@@ -56,34 +78,20 @@ class deleteAttribute(Resource):
         self.parse.add_argument('type', type=int, required=True, location='form')
         self.parse.add_argument('bestAttr', type=str, required=False, location='form')
 
+    @handle_error
     def post(self):
         args = self.parse.parse_args()
         if args['type'] == 0:
-            data = requests.get(urls['delBestAttr']%args).json()
+            data = requests.get(urls['delBestAttr'] % args).json()
             data['message'] = 'success'
+            logger.info(logging_format % {'ip': request.remote_addr, 'url': request.url, 'data': json.dumps(data)})
             return data
 
         elif args['type'] == 1:
-            data = requests.get(urls['delOtherAttr']%args).json()
+            data = requests.get(urls['delOtherAttr'] % args).json()
             data['message'] = 'success'
+            logger.info(logging_format % {'ip': request.remote_addr, 'url': request.url, 'data': json.dumps(data)})
             return data
-
-    # def delBestAttr(self, bestAttr, domain):
-    #     '''删除最优属性下全部同义属性'''
-    #     result = requests.get(urls['getOtherAttr'] % {'bestAttr': bestAttr, 'domain': domain}).json()
-    #     if result['status'] != 0:
-    #         result['message'] = 'error'
-    #         return result
-    #     data = result['data']
-    #     for each in data:
-    #         result = requests.get(urls['delOtherAttr'] % {'otherAttr': each, 'domain':domain}).json()
-    #         if result['status'] !=0:
-    #             result['message'] = 'error'
-    #             return result
-    #     result['message'] = 'success'
-    #     return result
-
-
 
 
 class addAttribute(Resource):
@@ -96,8 +104,10 @@ class addAttribute(Resource):
         self.parse.add_argument('otherAttr', type=str, required=True, location='form')
         self.parse.add_argument('fromAttr', type=str, required=True, location='form')
 
+    @handle_error
     def post(self):
         args = self.parse.parse_args()
         data = requests.get(urls['addOtherAttr'] % args).json()
         data['message'] = 'success'
+        logger.info(logging_format % {'ip': request.remote_addr, 'url': request.url, 'data': json.dumps(data)})
         return data

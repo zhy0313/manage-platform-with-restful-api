@@ -212,7 +212,7 @@ function search(button){
     $("body > div > div > form > div > input").val('');
 }
 
-// // 上下页按钮
+// 上下页按钮
 function lastnextPage(button, a){
     $currPage = $("body > div > div > nav > ul > li:nth-child(8) > b").text()
     $getPage = parseInt($currPage) + a
@@ -233,5 +233,6 @@ $("#otherAttr > div.modal-dialog > div > div.modal-footer > button").bind('click
     $tbody = $("body > div > div > table > tbody").children().remove();
     getBestAttr($domain, $page);
 })
+
 
 
